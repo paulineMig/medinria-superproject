@@ -28,7 +28,7 @@ set(LOCATE "")
 set(MEDINRIA_DIR ${CMAKE_BINARY_DIR})
 
 if (APPLE)
-  set(MEDINRIA_BIN ${binary_dir}/bin/MUSIC.app/Contents/MacOS/MUSIC)
+  set(MEDINRIA_BIN ${binary_dir}/bin/MUSIC_Viewer.app/Contents/MacOS/MUSIC_Viewer)
 else()
   set(MEDINRIA_BIN ${binary_dir}/bin/MUSIC)
 endif()
