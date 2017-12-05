@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e9f96bd..328402f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -28,7 +28,7 @@ include(CMakeDependentOption)
+ # use ExternalProject
+ include(ExternalProject)
+ 
+-if( CMAKE_HOST_WIN32 )
++if( CMAKE_HOST_WIN32 AND NOT ITK_SKIP_PATH_LENGTH_CHECKS )
+ 
+   string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
+   if( n GREATER 50 )
