@@ -77,6 +77,7 @@ set(cmake_args
   -DBUILD_TESTING:BOOL=OFF
   -DModule_ITKIOPhilipsREC:BOOL=ON
   -DModule_ITKReview:BOOL=ON
+  -DITK_SKIP_PATH_LENGTH_CHECKS:BOOL=ON
   )
 
 ## #############################################################################
@@ -84,6 +85,7 @@ set(cmake_args
 ## #############################################################################
 
 ep_GeneratePatchCommand(ITK ITK_PATCH_COMMAND ITK_Mac_Rpath.patch)
+ep_GeneratePatchCommand(ITK ITK_PATCH_COMMAND ITK_Window_pathLength.patch)
 
 ## #############################################################################
 ## Add external-project
