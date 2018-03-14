@@ -83,8 +83,8 @@ list(APPEND
   ${QT_PLUGINS_DIR}/* ${QT_BINARY_DIR} 
   ${ITK_DIR}/bin/Release 
   ${DCMTK_DIR}/bin/Release 
-  ${VTK_DIR}/bin/Release 
-  ${QtDCM_DIR}/bin/Release 
+  ${VTK_DIR}/bin/Release
+  ${QtDCM_DIR}/bin/Release
   ${TTK_DIR}/bin/Release 
   ${dtk_DIR}/bin/Release 
   ${RPI_DIR}/bin/Release 

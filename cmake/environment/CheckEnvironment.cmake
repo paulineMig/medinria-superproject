@@ -23,13 +23,6 @@ set(HOME_PATH $ENV{HOME})
 ## #############################################################################
 
 if (WIN32)
-  # Check for Visual Studio 2008 or 2010 or 2012
-  if (NOT MSVC9 AND NOT MSVC10 AND NOT MSVC11)
-    message(SEND_ERROR 
-      "MedInria can only be compiled with Visual Studio 2008 or 2010 or 2012 at this time." 
-      )
-  endif()
-
   # Check for DirectX SDK (for VTK)
   file(GLOB DIRECTX_SDK "C:/Program Files*/Microsoft DirectX SDK*")
   if (NOT DIRECTX_SDK)

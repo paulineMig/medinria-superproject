@@ -54,7 +54,6 @@ EP_SetDirectories(${ep}
 set(git_url ${GITHUB_PREFIX}Inria-Asclepios/TTK-Public.git)
 set(git_tag music)
 
-
 ## #############################################################################
 ## Add specific cmake arguments for configuration step of the project
 ## #############################################################################
@@ -76,7 +75,6 @@ set(cmake_args
   -DVTK_DIR:FILEPATH=${VTK_DIR}
   -DBUILD_TESTING:BOOL=OFF  
   )
-
 
 ## #############################################################################
 ## Add external-project

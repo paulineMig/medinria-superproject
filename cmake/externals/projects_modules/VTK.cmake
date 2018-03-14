@@ -83,7 +83,7 @@ set(cmake_args
 ## Check if patch has to be applied
 ## #############################################################################
 
-ep_GeneratePatchCommand(VTK VTK_PATCH_COMMAND VTK_WindowLevel.patch VTK_GLintptrPb.patch VTK_Mac_inline.patch)
+ep_GeneratePatchCommand(VTK VTK_PATCH_COMMAND vtk5.10.1VS2015.patch)
 
 ## #############################################################################
 ## Add external-project
