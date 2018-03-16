@@ -69,11 +69,9 @@ set(git_tag master)
 ## Add specific cmake arguments for configuration step of the project
 ## #############################################################################
 
-# set compilation flags
-if (UNIX)
-  set(${ep}_c_flags "${${ep}_c_flags} -Wall")
-  set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wall")
-endif()
+# Set compilation flags
+set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wall -std=c++11") # Compile using c++11 standard
+set(${ep}_c_flags "${${ep}_c_flags} -Wall")
 
 set(cmake_args
    ${ep_common_cache_args}
