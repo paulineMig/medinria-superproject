@@ -26,7 +26,6 @@ list(APPEND ${ep}_dependencies
   ITK 
   VTK 
   TTK 
-  QtDCM
   RPI
   )
   
@@ -84,7 +83,6 @@ set(cmake_args
   -DDCMTK_DIR:FILEPATH=${DCMTK_DIR}
   -Ddtk_DIR:FILEPATH=${dtk_DIR}
   -DITK_DIR:FILEPATH=${ITK_DIR}
-  -DQTDCM_DIR:FILEPATH=${QtDCM_DIR}
   -DRPI_DIR:FILEPATH=${RPI_DIR}
   -DTTK_DIR:FILEPATH=${TTK_DIR}
   -DVTK_DIR:FILEPATH=${VTK_DIR}
