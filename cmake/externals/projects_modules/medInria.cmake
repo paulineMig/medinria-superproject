@@ -61,7 +61,7 @@ EP_SetDirectories(${ep}
 ## #############################################################################
 
 set(git_url ${GITHUB_PREFIX}Inria-Asclepios/medInria-public.git)
-set(git_tag master)
+set(git_tag musicViewer)
 
 
 ## #############################################################################
