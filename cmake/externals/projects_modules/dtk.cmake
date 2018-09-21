@@ -88,6 +88,11 @@ set(cmake_args
   -DDTK_HAVE_NITE:BOOL=OFF
   )
 
+## #############################################################################
+## Check if patch has to be applied
+## #############################################################################
+
+ep_GeneratePatchCommand(DTK DTK_PATCH_COMMAND dtkLibraries.patch)
 
 ## #############################################################################
 ## Add external-project
@@ -97,6 +102,7 @@ ExternalProject_Add(${ep}
   ${location}
   ${ep_dirs}
   UPDATE_COMMAND ""
+  ${DTK_PATCH_COMMAND}
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS ${cmake_args}
   DEPENDS ${${ep}_dependencies}
