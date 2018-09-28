@@ -92,9 +92,7 @@ set(cmake_args
 ## Check if patch has to be applied
 ## #############################################################################
 
-ep_GeneratePatchCommand(DTK DTK_PATCH_COMMAND
-    dtkLibraries.patch
-    dtkLibraries2.patch)
+ep_GeneratePatchCommand(DTK DTK_PATCH_COMMAND dtkLibraries.patch)
 
 ## #############################################################################
 ## Add external-project
