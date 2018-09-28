@@ -1,36 +1,34 @@
-From 2319c0121191ab1ed851d6de85f2ea4c8bcb08a6 Mon Sep 17 00:00:00 2001
-From: "mathilde.merle" <mathilde.merle@ihu-liryc.fr>
-Date: Tue, 3 Jul 2018 17:25:30 +0200
-Subject: [PATCH] dtkLibraries
+commit c214fd6e5e11fc011f02ece457e9a82b260e046d
+Author: Florent Collot <florent.collot@ihu-liryc.fr>
+Date:   Fri Sep 28 15:04:27 2018 +0200
 
----
- cmake/FindDTK.cmake.in   | 2 +-
- cmake/dtkConfig.cmake.in | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+    [PATCH] dtkLibraries
 
 diff --git a/cmake/FindDTK.cmake.in b/cmake/FindDTK.cmake.in
-index a85d218..2f5ecaf 100644
+index a85d2181..3b2cc3ae 100644
 --- a/cmake/FindDTK.cmake.in
 +++ b/cmake/FindDTK.cmake.in
-@@ -29,7 +29,7 @@ set(dtk_CMAKE_DIRS   "@dtk_CMAKE_DIR@")
+@@ -29,8 +29,6 @@ set(dtk_CMAKE_DIRS   "@dtk_CMAKE_DIR@")
  
  set(dtk_USE_FILE "@dtk_USE_FILE@")
  
 -set(DTK_LIBRARIES dtkMath dtkCore dtkGui dtkComposer)
-+set(DTK_LIBRARIES dtkMath dtkCore dtkGui dtkComposer dtkLog)
- 
+-
  set(QT_QMAKE_EXECUTABLE "@QT_QMAKE_EXECUTABLE@")
  
-diff --git a/cmake/dtkConfig.cmake.in b/cmake/dtkConfig.cmake.in
-index ca86382..1115075 100644
---- a/cmake/dtkConfig.cmake.in
-+++ b/cmake/dtkConfig.cmake.in
-@@ -39,3 +39,5 @@ set(DTK_HAVE_TCL "@DTK_HAVE_TCL@")
+ include(${dtk_USE_FILE})
+diff --git a/cmake/dtkUse.cmake.in b/cmake/dtkUse.cmake.in
+index 98438773..a2a2c356 100644
+--- a/cmake/dtkUse.cmake.in
++++ b/cmake/dtkUse.cmake.in
+@@ -31,4 +31,10 @@ if(NOT DTK_USE_FILE_INCLUDED)
+    include(dtkBuild)
+    include(dtkReporting)
  
- set(DTK_BUILD_VR "@DTK_BUILD_VR@")
- set(DTK_BUILD_WRAPPERS "@DTK_BUILD_WRAPPERS@")
++   set(DTK_LIBRARIES dtkMath dtkCore dtkGui dtkLog)
 +
-+set(DTK_LIBRARIES dtkMath dtkCore dtkGui dtkComposer dtkLog)
--- 
-2.7.4
-
++   if(@DTK_BUILD_COMPOSER@)
++      set(DTK_LIBRARIES ${DTK_LIBRARIES} dtkComposer)
++   endif(@DTK_BUILD_COMPOSER@)
++
+ endif(NOT DTK_USE_FILE_INCLUDED)
