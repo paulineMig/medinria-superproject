@@ -70,7 +70,7 @@ set(git_tag master)
 ## #############################################################################
 
 # Set compilation flags
-set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wall -std=c++11") # Compile using c++11 standard
+set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wall -std=c++11 -Wno-inconsistent-missing-override") # Compile using c++11 standard
 set(${ep}_c_flags "${${ep}_c_flags} -Wall")
 
 set(cmake_args
