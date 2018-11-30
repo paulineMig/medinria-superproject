@@ -48,10 +48,9 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-# Set GIT_TAG to latest commit of origin/release-5.10 known to work
 set(tag tags/v5.10.1)
 if (NOT DEFINED ${ep}_SOURCE_DIR)
-    set(location GIT_REPOSITORY "https://github.com/Kitware/VTK.git" GIT_TAG ${tag})
+    set(location GIT_REPOSITORY "${GITHUB_PREFIX}Kitware/VTK.git" GIT_TAG ${tag})
 endif()
 
 

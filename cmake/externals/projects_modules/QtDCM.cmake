@@ -58,9 +58,10 @@ endif(QT4_FOUND)
 ## Set up versioning control.
 ## #############################################################################
 
-set(git_url ${GITHUB_PREFIX}medInria/qtdcm.git)
-set(git_tag music)
-
+set(tag "music")
+if (NOT DEFINED ${ep}_SOURCE_DIR)
+    set(location GIT_REPOSITORY "${GITHUB_PREFIX}medInria/qtdcm.git" GIT_TAG ${tag})
+endif()
 
 ## #############################################################################
 ## Add specific cmake arguments for configuration step of the project
@@ -96,8 +97,7 @@ ep_GeneratePatchCommand(QtDCM QtDCM_PATCH_COMMAND QtDCM_Bruker_Minc.patch)
 
 ExternalProject_Add(${ep}
   ${ep_dirs}
-  GIT_REPOSITORY ${git_url}
-  GIT_TAG ${git_tag}
+  ${location}
   UPDATE_COMMAND ""
   ${QtDCM_PATCH_COMMAND}
   CMAKE_GENERATOR ${gen}
