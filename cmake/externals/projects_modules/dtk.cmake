@@ -49,11 +49,10 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-set(url git://dtk.inria.fr/+medinria/dtk/dtk-clone-medinria.git)
+set(tag "master")
 if (NOT DEFINED ${ep}_SOURCE_DIR)
-  set(location GIT_REPOSITORY ${url})
+    set(location GIT_REPOSITORY "https://gitlab.inria.fr/MUSIC/dtk.git" GIT_TAG ${tag})
 endif()
-
 
 ## #############################################################################
 ## Add specific cmake arguments for configuration step of the project
