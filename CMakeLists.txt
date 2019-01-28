@@ -107,6 +107,17 @@ option(USE_GITHUB_SSH
   )
 mark_as_advanced(USE_GITHUB_SSH)
 
+option(USE_GITLAB_INRIA_SSH
+  "Use by default Git SSH addresses, requires public key set on Inria gitlab" OFF
+  )
+
+# Add CMAKE_MODULE_PATH to superProjectConfig.cmake, useful for
+# Asclepios and visages plugins
+file(APPEND ${${PROJECT_NAME}_CONFIG_FILE}
+  "set(USE_GITLAB_INRIA_SSH ${USE_GITLAB_INRIA_SSH})\n"
+  )
+
+
 set(PRIVATE_PLUGINS_DIRS "" CACHE PATH "Folders containing private plugins, separated by ';'")
 mark_as_advanced(PRIVATE_PLUGINS_DIRS)
 
