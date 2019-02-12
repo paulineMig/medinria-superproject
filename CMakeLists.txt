@@ -51,6 +51,8 @@ project(medInria-superProject VERSION ${medInria-superProject_VERSION})
 list(APPEND external_projects 
   Qt4 
   dtk 
+  ffmpeg
+  MPEG2
   VTK 
   ITK 
   DCMTK 

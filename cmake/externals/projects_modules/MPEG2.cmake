@@ -11,17 +11,14 @@
 #
 ################################################################################
 
-function(VTK_project)
-set(ep VTK)
+function(MPEG2_project)
+set(ep MPEG2)
 
 ## #############################################################################
 ## List the dependencies of the project
 ## #############################################################################
 
 list(APPEND ${ep}_dependencies 
-  Qt4
-  ffmpeg
-  MPEG2
   )
   
 ## #############################################################################
@@ -33,7 +30,6 @@ EP_Initialisation(${ep}
   BUILD_SHARED_LIBS ON
   REQUIRED_FOR_PLUGINS ON
   )
-
 
 if (NOT USE_SYSTEM_${ep})
 ## #############################################################################
@@ -48,11 +44,13 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-set(tag tags/v5.10.1)
 if (NOT DEFINED ${ep}_SOURCE_DIR)
-    set(location GIT_REPOSITORY "${GITHUB_PREFIX}Kitware/VTK.git" GIT_TAG ${tag})
+   if (UNIX) # Linux or MacOS
+      set(location "http://www.vtk.org/files/support/vtkmpeg2encode.tar.gz")
+   elseif (WIN32)
+      set(location "http://www.vtk.org/files/support/vtkmpeg2encode.zip")
+   endif()
 endif()
-
 
 ## #############################################################################
 ## Add specific cmake arguments for configuration step of the project
@@ -62,16 +60,6 @@ endif()
 if (UNIX)
   set(${ep}_c_flags "${${ep}_c_flags} -w")
   set(${ep}_cxx_flags "${${ep}_cxx_flags} -w")
-  set(unix_additional_args -DVTK_USE_NVCONTROL:BOOL=ON)
-endif()
-
-# library extension
-if (UNIX AND NOT APPLE)
-   set(extention so)
-elseif(APPLE)
-   set(extention dylib)
-elseif (WIN32)
-   set(extention dll)
 endif()
 
 set(cmake_args
@@ -81,30 +69,7 @@ set(cmake_args
   -DCMAKE_SHARED_LINKER_FLAGS:STRING=${${ep}_shared_linker_flags}  
   -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  
   -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS_${ep}}
-  -DQT_QMAKE_EXECUTABLE:FILEPATH=${QT_QMAKE_EXECUTABLE}
-  -DVTK_USE_QT:BOOL=ON
-  -DVTK_WRAP_TCL:BOOL=OFF
-  -DBUILD_TESTING:BOOL=OFF 
-  # OGV
-  -DVTK_USE_OGGTHEORA_ENCODER:BOOL=ON
-  # FFMPEG
-  -DVTK_USE_FFMPEG_ENCODER:BOOL=ON
-  -DFFMPEG_INCLUDE_DIR:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/include/
-  -DFFMPEG_avcodec_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavcodec.${extention}
-  -DFFMPEG_avformat_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavformat.${extention}
-  -DFFMPEG_avutil_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavutil.${extention}
-  -DFFMPEG_swscale_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libswscale.${extention}
-  # MPEG2
-  -DVTK_USE_MPEG2_ENCODER:BOOL=ON
-  -DvtkMPEG2Encode_INCLUDE_PATH:STRINGS=${CMAKE_CURRENT_SOURCE_DIR}/MPEG2$<SEMICOLON>${CMAKE_CURRENT_SOURCE_DIR}/build/MPEG2/build
-  -DvtkMPEG2Encode_LIBRARIES:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/MPEG2/build/libvtkMPEG2Encode.${extention}
   )
-
-## #############################################################################
-## Check if patch has to be applied
-## #############################################################################
-
-ep_GeneratePatchCommand(VTK VTK_PATCH_COMMAND vtk5.10.1VS2015.patch)
 
 ## #############################################################################
 ## Add external-project
@@ -112,16 +77,13 @@ ep_GeneratePatchCommand(VTK VTK_PATCH_COMMAND vtk5.10.1VS2015.patch)
 
 ExternalProject_Add(${ep}
   ${ep_dirs}
-  ${location}
-  UPDATE_COMMAND ""
-  ${VTK_PATCH_COMMAND}
+  URL ${location}
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS ${cmake_args}
   DEPENDS ${${ep}_dependencies}
   INSTALL_COMMAND ""
   )
   
-
 ## #############################################################################
 ## Set variable to provide infos about the project
 ## #############################################################################
@@ -129,13 +91,11 @@ ExternalProject_Add(${ep}
 ExternalProject_Get_Property(${ep} binary_dir)
 set(${ep}_DIR ${binary_dir} PARENT_SCOPE)
 
-
 ## #############################################################################
 ## Add custom targets
 ## #############################################################################
 
 EP_AddCustomTargets(${ep})
-
 
 endif() #NOT USE_SYSTEM_ep
 
