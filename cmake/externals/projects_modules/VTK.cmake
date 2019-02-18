@@ -21,7 +21,6 @@ set(ep VTK)
 list(APPEND ${ep}_dependencies 
   Qt4
   ffmpeg
-  MPEG2
   )
   
 ## #############################################################################
@@ -94,10 +93,6 @@ set(cmake_args
   -DFFMPEG_avformat_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavformat.${extention}
   -DFFMPEG_avutil_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavutil.${extention}
   -DFFMPEG_swscale_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libswscale.${extention}
-  # MPEG2
-  -DVTK_USE_MPEG2_ENCODER:BOOL=ON
-  -DvtkMPEG2Encode_INCLUDE_PATH:STRINGS=${CMAKE_CURRENT_SOURCE_DIR}/MPEG2$<SEMICOLON>${CMAKE_CURRENT_SOURCE_DIR}/build/MPEG2/build
-  -DvtkMPEG2Encode_LIBRARIES:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/MPEG2/build/libvtkMPEG2Encode.${extention}
   )
 
 ## #############################################################################
