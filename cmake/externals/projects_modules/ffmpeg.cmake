@@ -27,8 +27,8 @@ list(APPEND ${ep}_dependencies
 
 EP_Initialisation(${ep}
   USE_SYSTEM OFF
-  BUILD_SHARED_LIBS ON
-  REQUIRED_FOR_PLUGINS ON
+  BUILD_SHARED_LIBS OFF
+  REQUIRED_FOR_PLUGINS OFF
   )
 
 if (NOT USE_SYSTEM_${ep})
