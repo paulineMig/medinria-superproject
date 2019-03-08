@@ -61,9 +61,10 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-set(git_url ${GITHUB_PREFIX}Inria-Asclepios/medInria-public.git)
-set(git_tag master)
-
+set(tag master)
+if (NOT DEFINED ${ep}_SOURCE_DIR)
+    set(location GIT_REPOSITORY "${GITHUB_PREFIX}Inria-Asclepios/medInria-public.git" GIT_TAG ${tag})
+endif()
 
 ## #############################################################################
 ## Add specific cmake arguments for configuration step of the project
@@ -107,8 +108,7 @@ set(cmake_args
 
 ExternalProject_Add(${ep}
   ${ep_dirs}
-  GIT_REPOSITORY ${git_url}
-  GIT_TAG ${git_tag}
+  ${location}
   UPDATE_COMMAND ""
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS ${cmake_args}

@@ -45,13 +45,15 @@ EP_SetDirectories(${ep}
 ## #############################################################################
 
 if (WIN32)
+  # MPEG2
   if (NOT DEFINED ${ep}_SOURCE_DIR)
-      set(location URL "https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20190217-9326117-win64-static.zip")
+    set(location URL "http://www.vtk.org/files/support/vtkmpeg2encode.zip")
   endif()
 else()
-  set(tag "release/0.7") # cf. ${GITHUB_PREFIX}FFmpeg/FFmpeg.git for release numbers
+  # FFMPEG
+  set(tag "release/4.1")
   if (NOT DEFINED ${ep}_SOURCE_DIR)
-      set(location GIT_REPOSITORY "https://git.ffmpeg.org/ffmpeg.git" GIT_TAG ${tag})
+	set(location GIT_REPOSITORY "${GITHUB_PREFIX}FFmpeg/FFmpeg.git" GIT_TAG ${tag})
   endif()
 endif()
 
@@ -62,18 +64,19 @@ if (WIN32)
   ExternalProject_Add(${ep}
     ${ep_dirs}
     ${location}
-	CONFIGURE_COMMAND ""
+	CMAKE_GENERATOR ${gen}
+	CMAKE_ARGS ${cmake_args}
+	DEPENDS ${${ep}_dependencies}
 	INSTALL_COMMAND ""
-	BUILD_COMMAND mv ${CMAKE_CURRENT_SOURCE_DIR}/${ep}/bin/ffmpeg.exe ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build
   )
 else()
   ExternalProject_Add(${ep}
     ${ep_dirs}
     ${location}
     CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${ep}/configure
-	--disable-yasm --disable-static --disable-network --disable-zlib --disable-ffserver
-	--disable-ffplay --disable-decoders
-	--enable-shared --prefix=${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build
+		--disable-x86asm --disable-static 
+		--disable-network --disable-zlib --disable-doc --disable-ffplay --disable-decoders
+		--enable-shared --prefix=${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build
     PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build
     BUILD_COMMAND make install
   )

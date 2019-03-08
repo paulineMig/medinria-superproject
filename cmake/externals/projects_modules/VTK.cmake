@@ -70,10 +70,10 @@ if (UNIX AND NOT APPLE)
 elseif(APPLE)
    set(extention dylib)
 elseif (WIN32)
-   set(extention dll)
+   set(extention lib)
 endif()
 
-set(cmake_args
+set(cmake_args_generic
   ${ep_common_cache_args}
   -DCMAKE_C_FLAGS:STRING=${${ep}_c_flags}
   -DCMAKE_CXX_FLAGS:STRING=${${ep}_cxx_flags}
@@ -86,15 +86,30 @@ set(cmake_args
   -DBUILD_TESTING:BOOL=OFF 
   # OGV
   -DVTK_USE_OGGTHEORA_ENCODER:BOOL=ON
+  )
+
+if (WIN32)
+set(cmake_args
+  ${cmake_args_generic}
+   # MPEG2
+  -DVTK_USE_MPEG2_ENCODER:BOOL=ON
+  -DvtkMPEG2Encode_INCLUDE_PATH:STRINGS=${CMAKE_CURRENT_SOURCE_DIR}/ffmpeg$<SEMICOLON>${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build
+  -DvtkMPEG2Encode_LIBRARIES:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/${CMAKE_BUILD_TYPE}/vtkMPEG2Encode.${extention}
+  )
+else()
+set(cmake_args
+  ${cmake_args_generic}
   # FFMPEG
   -DVTK_USE_FFMPEG_ENCODER:BOOL=ON
+  -DVTK_FFMPEG_AVCODECID:BOOL=ON
   -DFFMPEG_INCLUDE_DIR:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/include/
   -DFFMPEG_avcodec_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavcodec.${extention}
   -DFFMPEG_avformat_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavformat.${extention}
   -DFFMPEG_avutil_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavutil.${extention}
   -DFFMPEG_swscale_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libswscale.${extention}
   )
-
+endif()
+  
 ## #############################################################################
 ## Check if patch has to be applied
 ## #############################################################################
