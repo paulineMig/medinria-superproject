@@ -51,7 +51,7 @@ if (WIN32)
   endif()
 else()
   # FFMPEG
-  set(tag "release/4.1")
+  set(tag "release/0.7")
   if (NOT DEFINED ${ep}_SOURCE_DIR)
 	set(location GIT_REPOSITORY "${GITHUB_PREFIX}FFmpeg/FFmpeg.git" GIT_TAG ${tag})
   endif()
@@ -74,7 +74,7 @@ else()
     ${ep_dirs}
     ${location}
     CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/${ep}/configure
-		--disable-x86asm --disable-static 
+		--disable-yasm --disable-static 
 		--disable-network --disable-zlib --disable-doc --disable-ffplay --disable-decoders
 		--enable-shared --prefix=${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build
     PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build

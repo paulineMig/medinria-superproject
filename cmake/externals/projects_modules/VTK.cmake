@@ -101,7 +101,6 @@ set(cmake_args
   ${cmake_args_generic}
   # FFMPEG
   -DVTK_USE_FFMPEG_ENCODER:BOOL=ON
-  -DVTK_FFMPEG_AVCODECID:BOOL=ON
   -DFFMPEG_INCLUDE_DIR:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/include/
   -DFFMPEG_avcodec_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavcodec.${extention}
   -DFFMPEG_avformat_LIBRARY:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/lib/libavformat.${extention}
