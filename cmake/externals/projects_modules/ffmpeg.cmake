@@ -45,7 +45,7 @@ EP_SetDirectories(${ep}
 ## #############################################################################
 
 if (NOT DEFINED ${ep}_SOURCE_DIR)
-  if(WIN) # MPEG2
+  if(WIN32) # MPEG2
     set(location URL "http://www.vtk.org/files/support/vtkmpeg2encode.zip")
   elseif (UNIX AND NOT APPLE) # MPEG2
     set(location URL "http://www.vtk.org/files/support/vtkmpeg2encode.tar.gz")
