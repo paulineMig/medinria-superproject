@@ -44,30 +44,45 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-if (WIN32)
-  # MPEG2
-  if (NOT DEFINED ${ep}_SOURCE_DIR)
+if (NOT DEFINED ${ep}_SOURCE_DIR)
+  if(WIN) # MPEG2
     set(location URL "http://www.vtk.org/files/support/vtkmpeg2encode.zip")
-  endif()
-else()
-  # FFMPEG
-  set(tag "release/0.7")
-  if (NOT DEFINED ${ep}_SOURCE_DIR)
-	set(location GIT_REPOSITORY "${GITHUB_PREFIX}FFmpeg/FFmpeg.git" GIT_TAG ${tag})
+  elseif (UNIX AND NOT APPLE) # MPEG2
+    set(location URL "http://www.vtk.org/files/support/vtkmpeg2encode.tar.gz")
+  else() # FFMPEG
+    set(tag "release/0.7")
+    set(location GIT_REPOSITORY "${GITHUB_PREFIX}FFmpeg/FFmpeg.git" GIT_TAG ${tag})
   endif()
 endif()
 
 ## #############################################################################
+## Add specific cmake arguments for configuration step of the project
+## #############################################################################
+
+# set compilation flags
+if (UNIX)
+  set(${ep}_c_flags "${${ep}_c_flags} -w")
+  set(${ep}_cxx_flags "${${ep}_cxx_flags} -w")
+endif()
+
+set(cmake_args
+   ${ep_common_cache_args}
+  -DCMAKE_C_FLAGS:STRING=${${ep}_c_flags}
+  -DCMAKE_CXX_FLAGS:STRING=${${ep}_cxx_flags}
+  )
+
+## #############################################################################
 ## Add external-project
 ## #############################################################################
-if (WIN32)
+
+if (WIN32 OR (UNIX AND NOT APPLE))
   ExternalProject_Add(${ep}
     ${ep_dirs}
     ${location}
-	CMAKE_GENERATOR ${gen}
-	CMAKE_ARGS ${cmake_args}
-	DEPENDS ${${ep}_dependencies}
-	INSTALL_COMMAND ""
+    CMAKE_GENERATOR ${gen}
+    CMAKE_ARGS ${cmake_args}
+    DEPENDS ${${ep}_dependencies}
+    INSTALL_COMMAND ""
   )
 else()
   ExternalProject_Add(${ep}
