@@ -47,8 +47,6 @@ EP_SetDirectories(${ep}
 if (NOT DEFINED ${ep}_SOURCE_DIR)
   if(WIN32) # MPEG2
     set(location URL "http://www.vtk.org/files/support/vtkmpeg2encode.zip")
-  elseif (UNIX AND NOT APPLE) # MPEG2
-    set(location URL "http://www.vtk.org/files/support/vtkmpeg2encode.tar.gz")
   else() # FFMPEG
     set(tag "release/0.7")
     set(location GIT_REPOSITORY "${GITHUB_PREFIX}FFmpeg/FFmpeg.git" GIT_TAG ${tag})
@@ -75,7 +73,7 @@ set(cmake_args
 ## Add external-project
 ## #############################################################################
 
-if (WIN32 OR (UNIX AND NOT APPLE))
+if (WIN32)
   ExternalProject_Add(${ep}
     ${ep_dirs}
     ${location}
@@ -96,6 +94,10 @@ else()
     BUILD_COMMAND make install
   )
 endif()
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build/lib/
+  DESTINATION lib
+  FILES_MATCHING PATTERN "lib*")
 
 ## #############################################################################
 ## Set variable to provide infos about the project

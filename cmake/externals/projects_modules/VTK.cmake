@@ -65,7 +65,7 @@ endif()
 
 # library extension
 if (UNIX AND NOT APPLE)
-   set(extention a)
+   set(extention so)
 elseif(APPLE)
    set(extention dylib)
 elseif (WIN32)
@@ -96,14 +96,6 @@ set(cmake_args
   -DVTK_USE_MPEG2_ENCODER:BOOL=ON
   -DvtkMPEG2Encode_INCLUDE_PATH:STRINGS=${CMAKE_CURRENT_SOURCE_DIR}/ffmpeg$<SEMICOLON>${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build
   -DvtkMPEG2Encode_LIBRARIES:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/${CMAKE_BUILD_TYPE}/vtkMPEG2Encode.${extention}
-  )
-elseif (UNIX AND NOT APPLE)
-set(cmake_args
-  ${cmake_args_generic}
-   # MPEG2
-  -DVTK_USE_MPEG2_ENCODER:BOOL=ON
-  -DvtkMPEG2Encode_INCLUDE_PATH:STRINGS=${CMAKE_CURRENT_SOURCE_DIR}/ffmpeg$<SEMICOLON>${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build
-  -DvtkMPEG2Encode_LIBRARIES:STRING=${CMAKE_CURRENT_SOURCE_DIR}/build/ffmpeg/build/libvtkMPEG2Encode.${extention}
   )
 else()
 set(cmake_args
