@@ -82,6 +82,10 @@ if (WIN32)
     DEPENDS ${${ep}_dependencies}
     INSTALL_COMMAND ""
   )
+
+  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build/${CMAKE_BUILD_TYPE}/
+  DESTINATION lib
+  FILES_MATCHING PATTERN "*lib")
 else()
   ExternalProject_Add(${ep}
     ${ep_dirs}
@@ -93,11 +97,11 @@ else()
     PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build
     BUILD_COMMAND make install
   )
-endif()
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build/lib/
+  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/${ep}/build/lib/
   DESTINATION lib
   FILES_MATCHING PATTERN "lib*")
+endif()
 
 ## #############################################################################
 ## Set variable to provide infos about the project
