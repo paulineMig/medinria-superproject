@@ -1,24 +1,73 @@
-#!/bin/bash -xe
-
-for i in $*; do
-	# Set some plugin dirs
-	if [[ $i = *"musicPlugins"* ]]; then
-		musicPythonInterpreterDir="$i/medPipeline/python/interpreter"
-	fi
-done
-
-# copy python interpreter (the compressed one) 
-if [ ! -f $musicPythonInterpreterDir/music-py27.tar.gz ]; then
-
-	virtualenv --version
-	cd $musicPythonInterpreterDir
-	virtualenv -p /usr/bin/python2.7 music-py27
-	source music-py27/bin/activate
-	pip install -r requirements.txt
-	deactivate
-	tar -zcvf music-py27.tar.gz music-py27 
-fi
+#!/bin/bash -e
 
 cd @PROJECT_BINARY_DIR@
 mkdir -p python_interpreter
-cp -p $musicPythonInterpreterDir/music-py27.tar.gz python_interpreter/.
+
+# Get afct & ventriclesegmentation python modules from music-learning gitlab repo
+# And add them in MUSIC binary
+MUSIC_LEARNING_DIR=@PROJECT_BINARY_DIR@/../../music-learning
+if [ ! -z "$MUSIC_LEARNING_DIR" ]; then
+	cd $MUSIC_LEARNING_DIR
+	zip -r ventriclesegmentation.zip ventriclesegmentation
+	if [ "$?" != "0" ]; then
+		printf "[Warning] unable to compress ventriclesegmentation repository. It will be not available in package" 
+	else
+		mv ventriclesegmentation.zip @PROJECT_BINARY_DIR@/python_interpreter/.
+	fi
+	zip -r afct.zip afct
+	if [ "$?" != "0" ]; then
+		printf "[Warning] unable to compress afct repository. It will be not available in package" 
+	else
+		mv afct.zip @PROJECT_BINARY_DIR@/python_interpreter/.
+	fi
+else
+	echo "music-learning directory does not exists."
+fi
+
+# 1) Change dynamic shared library install names for embedded *.so in modules
+# Only useful for macosx
+# 2) Generate vtk-5.10.1 python module from VTK Wrapping build directory (wheel)
+# 3) And add it in MUSIC binary
+cd @PROJECT_BINARY_DIR@
+VTK_BUILD_DIR=@PROJECT_BINARY_DIR@/VTK/build
+VTK_WRAP_DIR=$VTK_BUILD_DIR/Wrapping/Python
+VTK_BIN_DIR=$VTK_BUILD_DIR/bin
+OSTYPE="`uname`"
+if [ ! -z "$VTK_WRAP_DIR" ]; then
+	if [ "$OSTYPE" = "Darwin" ]; then
+		cd $VTK_BIN_DIR
+		for f in *.so
+		do
+			for j in $( otool -L $f  | sed "1d" | grep -E .dylib | grep -i -E 'vtk' | cut -d " " -f 1 ); do
+				tmpVal=`echo $j | rev | cut -d "/" -f 1 | rev`
+				if [ "`echo $j | grep executable_path`" == "" ]; then
+					install_name_tool -change $j @executable_path/../Frameworks/$tmpVal $f
+				fi
+		    done	
+			for j in $( otool -L $f | sed "1d" | grep -E .framework | grep -i -E 'Qt|phonon' | cut -d " " -f 1 ); do
+				k=$(echo $(sed 's/\(\.framework\).*/\1/' <<<$j) | rev | cut -d/ -f1 | rev)
+				l=$(awk -F'\\.framework' '{print $2}' <<< $j)
+				if [ "`echo $j | grep executable_path`" == "" ]; then
+					install_name_tool -change $j @executable_path/../Frameworks/$k$l $f
+				fi
+			done
+		
+		done
+	fi
+	cd "$VTK_WRAP_DIR"
+	python setup.py bdist_wheel
+	if [ "$?" != "0" ]; then
+		printf "[Warning] unable to generate vtk python package (wheel). It will be not available in package" 
+	else
+		cd dist
+		mv VTK-5.10.1-py2-none-any.whl @PROJECT_BINARY_DIR@/python_interpreter/.
+	fi
+else
+	echo "you must build vtk with python wrapping enabled."
+fi
+
+cd @PROJECT_BINARY_DIR@
+cd python_interpreter
+curl --location --output virtualenv-16.4.3.tar.gz https://github.com/pypa/virtualenv/tarball/16.4.3
+
+cd @PROJECT_BINARY_DIR@
