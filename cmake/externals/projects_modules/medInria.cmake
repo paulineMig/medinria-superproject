@@ -70,10 +70,6 @@ endif()
 ## Add specific cmake arguments for configuration step of the project
 ## #############################################################################
 
-# Set compilation flags
-set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wall -std=c++11") # Compile using c++11 standard
-set(${ep}_c_flags "${${ep}_c_flags} -Wall")
-
 if(CMAKE_COMPILER_IS_GNUCXX OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
     set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wno-inconsistent-missing-override")
 endif()

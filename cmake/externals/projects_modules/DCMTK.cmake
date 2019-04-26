@@ -49,11 +49,10 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-set(url ${GITHUB_PREFIX}medInria/dcmtk.git)
+set(tag "DCMTK-3.6.2")
 if (NOT DEFINED ${ep}_SOURCE_DIR)
-  set(location GIT_REPOSITORY ${url})
+  set(location GIT_REPOSITORY "git://git.dcmtk.org/dcmtk.git" GIT_TAG ${tag})
 endif()
-
 
 ## #############################################################################
 ## Add specific cmake arguments for configuration step of the project
@@ -70,12 +69,6 @@ if (CTEST_USE_LAUNCHERS)
     )    
 endif()
 
-# set compilation flags
-if (UNIX)
-  set(${ep}_c_flags "${${ep}_c_flags} -w")
-  set(${ep}_cxx_flags "${${ep}_cxx_flags} -w")
-endif()
-
 set(cmake_args
   ${ep_common_cache_args}
   ${ep_project_include_arg}
@@ -87,12 +80,12 @@ set(cmake_args
   -DDCMTK_WITH_DOXYGEN:BOOL=OFF
   -DDCMTK_WITH_ZLIB:BOOL=OFF    
   -DDCMTK_WITH_OPENSSL:BOOL=OFF 
-  -DDCMTK_WITH_PNG:BOOL=OFF     
+  -DDCMTK_WITH_PNG:BOOL=OFF
   -DDCMTK_WITH_TIFF:BOOL=OFF    
   -DDCMTK_WITH_XML:BOOL=OFF     
   -DDCMTK_OVERWRITE_WIN32_COMPILER_FLAGS:BOOL=OFF
+  -DDCMTK_ENABLE_CXX11:BOOL=ON
   )
-
 
 ## #############################################################################
 ## Add external-project

@@ -58,12 +58,6 @@ endif()
 ## Add specific cmake arguments for configuration step of the project
 ## #############################################################################
 
-# set compilation flags
- if (UNIX)
-  set(${ep}_c_flags "${${ep}_c_flags} -Wall")
-  set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wall")
-endif()
-
 # Disable the dtk composer if QtDeclarative is missing.
 include(CheckIncludeFileCXX)
 set(CMAKE_REQUIRED_INCLUDES ${QT_INCLUDES})

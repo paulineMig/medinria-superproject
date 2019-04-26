@@ -67,12 +67,6 @@ endif()
 ## Add specific cmake arguments for configuration step of the project
 ## #############################################################################
 
-# set compilation flags
-if (UNIX)
-  set(${ep}_c_flags "${${ep}_c_flags} -Wall")
-  set(${ep}_cxx_flags "${${ep}_cxx_flags} -Wall")
-endif()
-
 set(cmake_args
   ${ep_common_cache_args}
   -DCMAKE_C_FLAGS:STRING=${${ep}_c_flags}
@@ -89,7 +83,7 @@ set(cmake_args
 ## Check if patch has to be applied
 ## #############################################################################
 
-ep_GeneratePatchCommand(QtDCM QtDCM_PATCH_COMMAND QtDCM_Bruker_Minc.patch)
+ep_GeneratePatchCommand(QtDCM QtDCM_PATCH_COMMAND QtDCM.patch)
 
 ## #############################################################################
 ## Add external-project

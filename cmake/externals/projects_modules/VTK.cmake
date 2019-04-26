@@ -56,11 +56,10 @@ endif()
 ## Add specific cmake arguments for configuration step of the project
 ## #############################################################################
 
-# set compilation flags
+# set additional compilation flags
 if (UNIX)
-  set(${ep}_c_flags "${${ep}_c_flags} -w")
-  set(${ep}_cxx_flags "${${ep}_cxx_flags} -w")
-  set(unix_additional_args -DVTK_USE_NVCONTROL:BOOL=ON)
+    # VTK 5.10 does not handle c++11. Change it from flag defined in EP_Initialisation.
+    set(${ep}_cxx_flags "-Wall -std=c++03")
 endif()
 
 # library extension
@@ -85,7 +84,7 @@ set(cmake_args_generic
   -DBUILD_TESTING:BOOL=OFF 
   # OGV
   -DVTK_USE_OGGTHEORA_ENCODER:BOOL=ON
-  # To be removed when upgrading VTK version
+  # To be removed when upgrading VTK version
   -DVTK_REQUIRED_OBJCXX_FLAGS:STRING=""
   )
 
