@@ -96,7 +96,7 @@ foreach(external_project ${external_projects})
 endforeach()
 
 foreach(dir ${PRIVATE_PLUGINS_DIRS})
-        set(CPACK_INSTALL_CMAKE_PROJECTS ${CPACK_INSTALL_CMAKE_PROJECTS} ${dir} ${dir} ALL "/bin")
+        set(CPACK_INSTALL_CMAKE_PROJECTS ${CPACK_INSTALL_CMAKE_PROJECTS} ${dir} ${dir} ALL ".")
 endforeach()
 
 configure_file(${PYTHON_SRC_DIR}/PythonPackScript.cmake.in
