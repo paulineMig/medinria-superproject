@@ -49,9 +49,9 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-set(tag "DCMTK-3.6.2")
+set(tag "master")
 if (NOT DEFINED ${ep}_SOURCE_DIR)
-  set(location GIT_REPOSITORY "git://git.dcmtk.org/dcmtk.git" GIT_TAG ${tag})
+  set(location GIT_REPOSITORY "${GITHUB_PREFIX}medInria/dcmtk.git" GIT_TAG ${tag})
 endif()
 
 ## #############################################################################
@@ -62,16 +62,12 @@ if (WIN32)
   set(BUILD_SHARED_LIBS_${ep} OFF)
 endif()
 
-set(ep_optional_args)
-if (CTEST_USE_LAUNCHERS)
-  set(ep_optional_args
-    "-DCMAKE_PROJECT_DCMTK_INCLUDE:FILEPATH=${CMAKE_ROOT}/Modules/CTestUseLaunchers.cmake"
-    )    
+if (UNIX)
+    set(${ep}_cxx_flags "-Wall -std=c++03")
 endif()
 
 set(cmake_args
   ${ep_common_cache_args}
-  ${ep_project_include_arg}
   -DCMAKE_C_FLAGS:STRING=${${ep}_c_flags}
   -DCMAKE_CXX_FLAGS:STRING=${${ep}_cxx_flags}
   -DCMAKE_SHARED_LINKER_FLAGS:STRING=${${ep}_shared_linker_flags}  
@@ -81,11 +77,8 @@ set(cmake_args
   -DDCMTK_WITH_ZLIB:BOOL=OFF    
   -DDCMTK_WITH_OPENSSL:BOOL=OFF 
   -DDCMTK_WITH_PNG:BOOL=OFF
-  -DDCMTK_WITH_TIFF:BOOL=OFF    
-  -DDCMTK_WITH_XML:BOOL=OFF 
-  -DDCMTK_WITH_ICONV:BOOL=OFF    
-  -DDCMTK_OVERWRITE_WIN32_COMPILER_FLAGS:BOOL=OFF
-  -DDCMTK_ENABLE_CXX11:BOOL=ON
+  -DDCMTK_WITH_TIFF:BOOL=OFF
+  -DDCMTK_WITH_XML:BOOL=OFF
   )
 
 ## #############################################################################
