@@ -61,9 +61,9 @@ EP_SetDirectories(${ep}
 ## Define repository where get the sources
 ## #############################################################################
 
-set(tag master)
+set(tag newTheme)
 if (NOT DEFINED ${ep}_SOURCE_DIR)
-    set(location GIT_REPOSITORY "${GITHUB_PREFIX}Inria-Asclepios/medInria-public.git" GIT_TAG ${tag})
+    set(location GIT_REPOSITORY "${GITHUB_PREFIX}paulineMig/medInria-public.git" GIT_TAG ${tag})
 endif()
 
 ## #############################################################################
